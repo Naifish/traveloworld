@@ -1,5 +1,5 @@
 <head>
-	<title>All Rooms</title>
+	<title>Atlantic Hotel</title>
 	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -19,8 +19,8 @@
       <li><a href="#">View Rooms</a></li>
     </ul>  
       <ul class="nav navbar-nav navbar-right">
-      	<li><a href="#">Sign Up</a></li>
-      	<li><a href="#">Login</a></li>
+      	<li><a href="registration.php">Sign Up</a></li>
+      	<li><a href="login.php">Login</a></li>
     </ul>
     </div>
 </nav>

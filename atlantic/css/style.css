@@ -4,3 +4,17 @@ footer{
     padding: 15px 0px;
     border: 1px solid transparent;
 }
+
+
+
+/* Styling Registration Page */
+
+.container-registration{
+	width: 40%;
+	padding: 49px;
+	box-shadow: 4px 6px 53px 0px rgba(0, 0, 0, 0.76);
+	margin: 150px auto 100px auto;
+	border-radius: 11px;
+}
+
+/* End of styling Registration page */
