@@ -1,5 +1,14 @@
+<?php
+if (isset($_GET['login'])){
+    unset($_SESSION["email"]);
+    session_destroy();
+    header('location:login.php');
+}
+?>
+
+
 <head>
-	<title>All Rooms</title>
+	<title>Atlantic Hotel</title>
 	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -17,11 +26,17 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="index.php">Home</a></li>
       <li><a href="#">View Rooms</a></li>
-    </ul>  
-      <ul class="nav navbar-nav navbar-right">
-      	<li><a href="#">Sign Up</a></li>
-      	<li><a href="#">Login</a></li>
     </ul>
+    <?php if(!isset($_SESSION) || empty($_SESSION['email'])){ ?>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="registration.php">Sign Up</a></li>
+        <li><a href="login.php">Login</a></li>
+    </ul>
+  <?php } else { ?>
+    <ul class="nav navbar-nav navbar-right">
+        <li><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?login=false">Logout</a></li>
+    </ul>
+  <?php } ?>
     </div>
 </nav>
 <!-- End of Reference: Navbar -->
