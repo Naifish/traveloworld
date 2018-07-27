@@ -21,7 +21,9 @@ footer{
 	float: right;
 }
 
-
+.container-rooms ol li{
+	list-style: none;
+}
 
 .btn-post{
   display: block;

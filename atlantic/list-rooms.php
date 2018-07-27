@@ -8,27 +8,9 @@ require 'includes/header.php';
 </div>
 
 <!-- Listing Starts -->
-<div class="container list-room">
-	<div class="row">
-  		<div class="col-md-3">
-  			<img src="http://res.cloudinary.com/drtnvyqg9/image/upload/bo_1px_solid_rgb:00385b,c_fill,f_png,w_250/rrqgm6w9n4fa7t366rcm">
-  		</div>
-  		<div class="col-md-7">
-  			<h3>Room Type</h3>
-  			<hr/>
-  			<p>DESC</p>
-  			<p>Room Number</p>
-
-  		</div>
-  		<div class="col-md-2 ">
-  			<h2>CAD 300</h2>
-  			<a href="#" class="btn-primary btn-rooms">Book this Room</a>
-  		</div>
-	</div>
+<div class="container container-rooms">
+	<ol></ol>
 </div>
-
-<p>Here</p>
-<ol></ol>
 
 <?php 
 include 'includes/footer.php';
@@ -53,7 +35,7 @@ Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_ap
         var roomType = data[i].roomType;
         var description = data[i].description;
         var room = data[i].roomNumber;
-        var image = '<img src="https://res.cloudinary.com/drtnvyqg9/image/upload/w_250,bo_1px_solid_rgb:00390b,f_png,,c_fill/'+data[i].image+'">';
+        var image = '<img src="https://res.cloudinary.com/drtnvyqg9/image/upload/w_250,bo_1px_solid_rgb:00390b,f_png,c_fill/'+data[i].image+'">';
         
         $("ol").append("<li><div class='container list-room'><div class='row'><div class='col-md-3'>"+image+"</div><div class='col-md-7'><h3>Room Type"+roomType+"<hr/><p>"+description+"</p><p>"+room+"</p></div><div class='col-md-2'><h2>CAD 300</h2><a href='#' class='btn-primary btn-rooms'>Book this Room</a></div></div></div></li><br />");
     }    
