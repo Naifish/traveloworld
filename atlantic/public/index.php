@@ -12,7 +12,24 @@ require '../includes/database.php';
 $app = new \Slim\App;
 
 
+$app->get('/rooms/all', function (Request $req, Response $res){
+    
+    try{
 
+        $con = new Database();
+        $con = $con->connect();
+        $sql = "SELECT * FROM rooms";        
+
+
+        $stmt = $con->query($sql);
+        $rooms =  $stmt->fetchAll(PDO::FETCH_OBJ);
+        $con =  null;
+        echo json_encode($rooms);
+
+    }catch(PDOException $e){
+        echo '{"message": {"text": '.$e->getMessage().'}  }';
+    }
+});
 
 
 $app->run();

@@ -37,10 +37,10 @@ if (isset($_POST['btn-registration'])) {
 	}
 
 
-	if (count($errs<1)) {
-		
-            $con = new PDO("mysql:host=$servername;dbname=".$dbName, $username, $password);
-            $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	if (count($errs)<1) {
+
+          $con = new Database();
+          $con = $con->connect();
                 $checkUerExistence= $con->prepare("SELECT * FROM users WHERE email= :email");
                 $checkUerExistence->execute(array(
                     "email"=>$email
