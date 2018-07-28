@@ -36,7 +36,10 @@ if (isset($_POST['btn-login'])) {
                 $res = $checkUerExistence->fetch(PDO::FETCH_ASSOC);
                 $_SESSION['name']=$res['name'];
                 $_SESSION['email'] = $email;
-                        
+                $_SESSION['id']= $res['id'];
+                
+
+
                 header('location:index.php');
             }
             else{
