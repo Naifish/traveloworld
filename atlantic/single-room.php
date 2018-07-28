@@ -57,7 +57,7 @@ Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_ap
         var id= data[i].id;
         var image = '<img src="https://res.cloudinary.com/drtnvyqg9/image/upload/w_490,bo_1px_solid_rgb:00390b,f_png,c_fill/'+data[i].image+'">';
         
-        $("ol").append("<li><div class='container'><center><div class='room-img'>"+image+"</div></center><br/><br/><h2>Room Type "+roomType+"</h2><hr/><h3>Description</h3><p>"+description+"</p><h3>Room Number </h3><p>"+room+"</p><div class='row'><div class='col-md-3'><h3>Start Date  </h3>"+startDate+"</div><div class='col-md-3'><h3> End Date </h3> "+endDate+"</div></div><br /><h2>CAD "+price+"</h2><br/><a href='payment.php?uID="+id+"&price="+price+"&uID="+uID+"' class='btn-primary btn-rooms'>Book this Room</a></div></li><br />");
+        $("ol").append("<li><div class='container'><center><div class='room-img'>"+image+"</div></center><br/><br/><h2>Room Type "+roomType+"</h2><hr/><h3>Description</h3><p>"+description+"</p><h3>Room Number </h3><p>"+room+"</p><div class='row'><div class='col-md-3'><h3>Start Date  </h3>"+startDate+"</div><div class='col-md-3'><h3> End Date </h3> "+endDate+"</div></div><br /><h2>CAD "+price+"</h2><br/><a href='payment.php?rID="+id+"&price="+price+"&uID="+uID+"' class='btn-primary btn-rooms'>Book this Room</a></div></li><br />");
     }    
                     
     } 
