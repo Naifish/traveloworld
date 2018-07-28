@@ -6,7 +6,7 @@ if (isset($_GET['login'])){
     session_destroy();
     header('location:login.php');
 }
-if(isset($_SESSION) && !empty($_SESSION['email'])){ header('location:index.php');}
+if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:../login.php');}
 $name='';$location='';$roomNumber='';$roomType='';$description='';$startDate='';$endDate='';$status='';$image='';$rommAdded=false;$errs=array();
 
 if (isset($_POST['btn-add-room'])) {

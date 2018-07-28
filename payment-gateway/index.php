@@ -69,12 +69,12 @@ $app->post('/card/pay', function (Request $req, Response $res){
                 echo '{"message": {"status": "success"}  }';
 
             }else{
-                echo '{"message": {"error": "You have not sufficient amount to make this transection"}  }';
+                echo '{"message": {"status": "You have not sufficient amount to make this transection"}  }';
             }
 
         }
         else{
-            echo '{"message": {"error": "Invalid card information"}  }';
+            echo '{"message": {"status": "Invalid card information"}  }';
         }
         $con =  null;
 
