@@ -12,13 +12,19 @@ require '../includes/database.php';
 $app = new \Slim\App;
 
 
-$app->get('/rooms/all', function (Request $req, Response $res){
-    
+$app->get('/rooms/all/{startDate}/{endDate}/{minAmt}/{maxAmt}', function (Request $req, Response $res){
+    $startDate = $req->getAttribute('startDate');
+    $endDate = $req->getAttribute('endDate');
+    $minAmt = $req->getAttribute('minAmt');
+    $maxAmt = $req->getAttribute('maxAmt');
+        
+
     try{
 
         $con = new Database();
         $con = $con->connect();
-        $sql = "SELECT * FROM rooms";        
+        /*WHERE startDate*/
+        $sql = "SELECT * FROM rooms WHERE startDate<= '$startDate' AND endDate>= '$endDate' AND price BETWEEN '$minAmt' AND '$maxAmt'";        
 
 
         $stmt = $con->query($sql);
@@ -30,6 +36,27 @@ $app->get('/rooms/all', function (Request $req, Response $res){
         echo '{"message": {"text": '.$e->getMessage().'}  }';
     }
 });
+
+
+$app->get('/rooms/{id}', function (Request $req, Response $res){
+    $id = $req->getAttribute('id');
+    try{
+
+        $con = new Database();
+        $con = $con->connect();
+        $sql = "SELECT * FROM rooms WHERE id=$id";        
+
+
+        $stmt = $con->query($sql);
+        $rooms =  $stmt->fetchAll(PDO::FETCH_OBJ);
+        $con =  null;
+        echo json_encode($rooms);
+
+    }catch(PDOException $e){
+        echo '{"message": {"text": '.$e->getMessage().'}  }';
+    }
+});
+
 
 
 $app->run();
