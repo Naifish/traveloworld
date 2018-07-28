@@ -27,13 +27,16 @@ if (isset($_GET['login'])){
       <li class="active"><a href="index.php">Home</a></li>
       <li><a href="#">View Rooms</a></li>
     </ul>
-    <?php if(!isset($_SESSION) || empty($_SESSION['email'])){ ?>
+    <?php if(!isset($_SESSION) || empty($_SESSION['id'])){ ?>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="registration.php">Sign Up</a></li>
         <li><a href="login.php">Login</a></li>
     </ul>
-  <?php } else { ?>
+  <?php } else { 
+      $userID= $_SESSION['id'];
+  ?>
     <ul class="nav navbar-nav navbar-right">
+        <li><a href="my-bookings.php?id=<?php echo $userID;?>">My Bookings</a></li>
         <li><a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?login=false">Logout</a></li>
     </ul>
   <?php } ?>
