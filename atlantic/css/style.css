@@ -4,6 +4,7 @@ footer{
     padding: 15px 0px;
     border: 1px solid transparent;
 }
+/*View all the rooms ========================================================================================*/
 .list-room{
 	border: 1px solid #e7e7e7;
 	padding: 5px 10px;	
@@ -25,24 +26,17 @@ footer{
 	list-style: none;
 }
 
-.btn-post{
-  display: block;
-  width: 200px;
-  margin: auto;
-  border: 1px solid black ;
-  padding: 6px 20px;
-  background-color: #0076bc;
-  color: #ffffff;
-  text-align: center; 
-  font-weight: bold;
-}
-.btn-post:hover{ 
-  color: #0076bc; 
-  background: transparent; 
-  text-decoration: none;
-}
+/*End of View all the room ======================================================================================*/
 
+/*Single Room*/
 
+/*.room-img{
+	display: block;
+	margin: auto;
+	
+}
+*/
+/*End of single room*/
 
 /* Styling Registration Page */
 
