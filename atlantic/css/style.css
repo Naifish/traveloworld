@@ -55,3 +55,17 @@ footer{
 }
 
 /* End of styling Registration page */
+
+
+/* Styling admin - Add room availability page  */
+
+
+.container-add-room form select{
+	width: 100%;
+	height: 40px;
+	font-size: 14px;
+	border:1px solid #ccc;
+	background-color: transparent; 
+}
+
+/* End of styling add room availibility */
