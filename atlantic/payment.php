@@ -1,8 +1,17 @@
 <?php
 session_start();
 
+$uID='';$paymentSuccess=false;
 if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['rID']) && isset($_GET['uID'])) {
-  echo "now insert in to my booking table";
+  $uID=$_GET['uID'];$rID=$_GET['rID'];
+
+  require 'includes/database.php';
+  $con = new Database();
+  $con = $con->connect();
+  $exeQry = $con->query(" INSERT INTO my_bookings (uID,rID) VALUES('$uID','$rID')");
+                    if ($exeQry==true){
+                        $paymentSuccess=true;
+                    }
 }
 
 ?>
@@ -50,6 +59,34 @@ require 'includes/header.php';
 </div>
 </div>
 </div>
+
+
+<!-- [5] w3schools.com "Bootstrap Modal". www.w3schools.com [Online]. Available. "https://www.w3schools.com/bootstrap/bootstrap_modal.asp".[Accessed On: 19th July 2018].-->
+    <div id="modalSuccess" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <form action="my-bookings.php?id=<?php echo $uID; ?>" method="post">
+                        <button type="submit" class="close">&times;</button>
+                    </form>
+                    <h4 class="modal-title">Payment has been received.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>You booking has been confirmed. please visit your booking page to check the booking status</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="my-bookings.php?id=<?php echo $uID; ?>" method="post">
+                        <input type="submit" class="btn btn-default" value="Close">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of Bootstrap Modal -->
+
 <?php 
 include 'includes/footer.php';
 ?>
@@ -59,7 +96,9 @@ include 'includes/footer.php';
 $(document).ready(function () {
 var resultPayment = $('#resultPayment');
 
-
+        <?php if ($paymentSuccess==true){ $paymentSuccess=false; ?>
+        $("#modalSuccess").modal('show');
+        <?php } ?>
 
         $("form").submit(function(e){
             e.preventDefault();
