@@ -58,6 +58,27 @@ $app->get('/rooms/{id}', function (Request $req, Response $res){
 });
 
 
+$app->get('/rooms/bookings/{id}', function (Request $req, Response $res){
+    $id = $req->getAttribute('id');
+    /*$email = $req->getAttribute('email');*/
+    try{
+
+        $con = new Database();
+        $con = $con->connect();
+        $sql = "SELECT * FROM rooms WHERE id='$id' ";        
+
+
+        $stmt = $con->query($sql);
+        $rooms =  $stmt->fetchAll(PDO::FETCH_OBJ);
+        $con =  null;
+        echo json_encode($rooms);
+
+    }catch(PDOException $e){
+        echo '{"message": {"text": '.$e->getMessage().'}  }';
+    }
+});
+
+
 
 $app->run();
 
