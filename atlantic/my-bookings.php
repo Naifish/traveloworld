@@ -53,7 +53,7 @@ Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_ap
         var price= data[i].price;
         var image = '<img src="https://res.cloudinary.com/drtnvyqg9/image/upload/w_250,bo_1px_solid_rgb:00390b,f_png,c_fill/'+data[i].image+'">';
         
-        $("ol").append("<li><div class='container list-room'><div class='row'><div class='col-md-3'>"+image+"</div><div class='col-md-7'><h3>Room Type"+roomType+"<hr/><p>"+description+"</p><p>"+room+"</p></div><div class='col-md-2'><h2>CAD"+price+"</h2><</div></div></div></li><br />");
+        $("ol").append("<li><div class='container list-room'><div class='row'><div class='col-md-3'>"+image+"</div><div class='col-md-7'><h3>Room Type"+roomType+"<hr/><p>"+description+"</p><p>"+room+"</p></div><div class='col-md-2'><h2>CAD"+price+"</h2></div></div></div></li><br />");
     }    
                     
     } 

@@ -65,7 +65,7 @@ $app->get('/rooms/bookings/{id}', function (Request $req, Response $res){
 
         $con = new Database();
         $con = $con->connect();
-        $sql = "SELECT * FROM rooms WHERE id='$id' ";        
+        $sql = "SELECT my_bookings.uID, rID, name, location, roomType, description, startDate, endDate, image, status, paymentStatus, roomNumber, price FROM my_bookings, rooms WHERE my_bookings.uID = '$id' AND rID= rooms.id";        
 
 
         $stmt = $con->query($sql);
