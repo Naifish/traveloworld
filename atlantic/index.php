@@ -1,7 +1,6 @@
 <?php
 
 session_start();
-if(isset($_SESSION) && !empty($_SESSION['email'])){ header('location:index.php');}
 $startDate='';
 $endDate='';
 $minAmt='';
