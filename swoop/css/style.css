@@ -1,0 +1,79 @@
+footer{
+	background-color: #333;
+    border-color: #e7e7e7;
+    color: #fff;
+    padding: 15px 0px;
+    border: 1px solid transparent;
+}
+
+footer a {
+	color: #fff;
+}
+/*View all the rooms ========================================================================================*/
+.list-flight{
+	border: 1px solid #e7e7e7;
+	padding: 5px 10px;	
+	box-shadow: 0 0 40px #BFBFBD;
+	margin-top: 39px;
+}
+.btn-flights{
+	padding: 7px;
+	/*margin: auto;*/
+	display: block;
+	width: 120px;
+  
+}
+.flight-amount{
+	float: right;
+}
+
+.container-flights ol li{
+	list-style: none;
+}
+
+.flight-description{
+	color: green;
+	font-weight: bold;
+	font-size: 17px;
+}
+.flight-number{
+	font-size: 16px;
+	color: grey;
+}
+/*End of View all the room ======================================================================================*/
+
+/*Single Room*/
+
+/*.room-img{
+	display: block;
+	margin: auto;
+	
+}
+*/
+/*End of single room*/
+
+/* Styling Registration Page */
+
+.container-registration{
+	width: 40%;
+	padding: 49px;
+	box-shadow: 4px 6px 53px 0px rgba(0, 0, 0, 0.76);
+	margin: 150px auto 100px auto;
+	border-radius: 11px;
+}
+
+/* End of styling Registration page */
+
+
+/* Styling admin - Add room availability page  */
+
+
+.container-add-room form select{
+	width: 100%;
+	height: 40px;
+	font-size: 14px;
+	border:1px solid #ccc;
+	background-color: transparent; 
+}
+
+/* End of styling add room availibility */
