@@ -25,7 +25,6 @@ if (isset($_GET['login'])){
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="index.php">Home</a></li>
-      <li><a href="#">View Rooms</a></li>
     </ul>
     <?php if(!isset($_SESSION) || empty($_SESSION['id'])){ ?>
       <ul class="nav navbar-nav navbar-right">

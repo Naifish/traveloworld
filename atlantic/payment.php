@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:login.php');}
 $uID='';$paymentSuccess=false;
 if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['rID']) && isset($_GET['uID'])) {
   $uID=$_GET['uID'];$rID=$_GET['rID'];
@@ -11,6 +11,10 @@ if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['rID']
   $exeQry = $con->query(" INSERT INTO my_bookings (uID,rID) VALUES('$uID','$rID')");
                     if ($exeQry==true){
                         $paymentSuccess=true;
+                        
+                        //$updateRoomStatus = $con->query("UPDATE rooms SET status='no' WHERE id='$rID");
+                        $updateRoomStatus = $con->prepare("UPDATE rooms SET status='no' WHERE id= :id");
+            $updateRoomStatus->execute(array("id" => $rID));
                     }
 }
 
@@ -25,7 +29,7 @@ require 'includes/header.php';
 <div class="container container-registration container-add-room">
 <div class="row">
 	<div class="col-md-12">
-<form action="#" method="post">
+<form action="#" method="post" id="form-payment">
 	<h3 class="text-center">Payment</h3>
   <input type="hidden" name="rID" id="rID" value="<?php if(isset($_GET['rID'])){ echo $_GET['rID']; } ?>">
   <input type="hidden" name="uID" id="uID" value="<?php if(isset($_GET['uID'])){ echo $_GET['uID']; } ?>">
@@ -100,7 +104,7 @@ var resultPayment = $('#resultPayment');
         $("#modalSuccess").modal('show');
         <?php } ?>
 
-        $("form").submit(function(e){
+        $("#form-payment").submit(function(e){
             e.preventDefault();
         });
 

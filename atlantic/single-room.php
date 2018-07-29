@@ -2,6 +2,7 @@
 <html>
 <?php 
 session_start();
+if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:login.php');}
 
 require 'includes/header.php';
 ?>
@@ -22,6 +23,7 @@ $endDate = $_GET['endDate'];
 ?>
 <form>
     <input type="hidden" name="sendId" id="id" value="<?php echo $id;?>">
+    <input type="hidden" name="sendId" id="uID" value="<?php echo $_SESSION['id'];?>">
     <input type="hidden" name="sendId" id="startDate" value="<?php echo $startDate;?>">
     <input type="hidden" name="sendId" id="endDate" value="<?php echo $endDate;?>">
 </form>
@@ -36,12 +38,12 @@ include 'includes/footer.php';
 $(document).ready(function() {
     var id=0;
      id = document.getElementById('id').value;
-     uID = document.getElementById('id').value;
+     uID = document.getElementById('uID').value;
      var startDate = document.getElementById('startDate').value; 
      var endDate = document.getElementById('endDate').value;  
      console.log(id);  
 $.ajax({
-    url: "http://localhost/traveloworld/atlantic/public/index.php/rooms/"+id,
+    url: "http://localhost/traveloworld/traveloworld/atlantic/public/index.php/rooms/"+id,
     method: 'GET',
     contentType: 'application/json',
     dataType: 'JSON',
@@ -57,9 +59,9 @@ Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_ap
         var room = data[i].roomNumber;
         var price= data[i].price;
         var id= data[i].id;
-        var image = '<img src="https://res.cloudinary.com/drtnvyqg9/image/upload/w_490,bo_1px_solid_rgb:00390b,f_png,c_fill/'+data[i].image+'">';
+        var image = '<img src="https://res.cloudinary.com/drp5uq3ng/image/upload/w_250,bo_1px_solid_rgb:00390b,f_png,c_fill/'+data[i].image+'">';
         
-        $("ol").append("<li><div class='container'><center><div class='room-img'>"+image+"</div></center><br/><br/><h2>Room Type "+roomType+"</h2><hr/><h3>Description</h3><p>"+description+"</p><h3>Room Number </h3><p>"+room+"</p><div class='row'><div class='col-md-3'><h3>Start Date  </h3>"+startDate+"</div><div class='col-md-3'><h3> End Date </h3> "+endDate+"</div></div><br /><h2>CAD "+price+"</h2><br/><a href='payment.php?rID="+id+"&price="+price+"&uID="+uID+"' class='btn-primary btn-rooms'>Book this Room</a></div></li><br />");
+        $("ol").append("<li><div class='container'><center><div class='room-img'>"+image+"</div></center><br/><br/><h2>Room Type "+roomType+"</h2><hr/><p class='room-description'>Description: "+description+"</p><p class='room-number'>Room Number <p class='room-number'>"+room+"</p><div class='row'><div class='col-md-3'><h3>Start Date  </h3>"+startDate+"</div><div class='col-md-3'><h3> End Date </h3> "+endDate+"</div></div><br /><h2>CAD "+price+"</h2><br/><a href='payment.php?rID="+id+"&price="+price+"&uID="+uID+"' class='btn-primary btn-rooms'>Book this Room</a></div></li><br />");
     }    
                     
     } 

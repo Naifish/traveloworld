@@ -23,9 +23,7 @@ $app->get('/rooms/all/{startDate}/{endDate}/{minAmt}/{maxAmt}', function (Reques
 
         $con = new Database();
         $con = $con->connect();
-        /*WHERE startDate*/
-        $sql = "SELECT * FROM rooms WHERE startDate<= '$startDate' AND endDate>= '$endDate' AND price BETWEEN '$minAmt' AND '$maxAmt'";        
-
+        $sql = "SELECT * FROM rooms WHERE startDate <= '$endDate' AND endDate >= '$startDate' AND price BETWEEN '$minAmt' AND '$maxAmt' AND status='yes'";
 
         $stmt = $con->query($sql);
         $rooms =  $stmt->fetchAll(PDO::FETCH_OBJ);
