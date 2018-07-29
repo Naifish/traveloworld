@@ -52,10 +52,19 @@ if (isset($_POST['btn-registration'])) {
             else{
                     $exeQry = $con->query(" INSERT INTO users (contact,email,name,pass) VALUES('$contact','$email','$name','$pass')");
                     if ($exeQry==true){
+
+                      $checkUerExistence= $con->prepare("SELECT * FROM users WHERE email= '$email'");
+                      $checkUerExistence->execute();
+                      $userExist=$checkUerExistence->rowCount();
+                      if($userExist>0){
+                        $res = $checkUerExistence->fetch(PDO::FETCH_ASSOC);
+                
+                          $_SESSION['id']= $res['id'];
+                      }
+
                     	$_SESSION['name']=$name;
-                        $_SESSION['email'] = $email;
-                        
-                        header('location:index.php');
+                      $_SESSION['email'] = $email;
+                      header('location:index.php');
                     }
             }        
 	}
