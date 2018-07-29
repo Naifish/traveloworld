@@ -1,13 +1,14 @@
 <?php
 
 session_start();
+if((isset($_SESSION)) && (empty($_SESSION['email']) || $_SESSION['email']!="macpro@live.com")){ header('location:../login.php');}
 if (isset($_GET['login'])){
     unset($_SESSION["email"]);
     session_destroy();
     header('location:login.php');
 }
 if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:../login.php');}
-$name='';$location='';$roomNumber='';$roomType='';$description='';$startDate='';$endDate='';$status='';$image='';$rommAdded=false;$errs=array();
+$name='';$location='';$roomNumber='';$roomType='';$description='';$startDate='';$endDate='';$price='';$status='';$image='';$rommAdded=false;$errs=array();
 
 if (isset($_POST['btn-add-room'])) {
 	require '../includes/database.php';
@@ -21,6 +22,12 @@ if (isset($_POST['btn-add-room'])) {
     $errs[]="Please Upload image. It is required";
   }else{
     $image=$_POST['image'];
+  }
+
+  if (empty($_POST['price'])) {
+    $errs[]="Price is required";
+  }else{
+    $price=$_POST['price'];
   }
 
 	if (empty($_POST['location'])) {
@@ -78,7 +85,7 @@ if (isset($_POST['btn-add-room'])) {
 
           $con = new Database();
           $con = $con->connect();
-                $exeQry = $con->query("INSERT INTO rooms (name,location,roomNumber,roomType,description,startDate,endDate,image,status) VALUES('$name','$location','$roomNumber','$roomType','$description','$startDate','$endDate','$image','$status')");
+                $exeQry = $con->query("INSERT INTO rooms (name,location,roomNumber,roomType,description,startDate,endDate,image,status,price) VALUES('$name','$location','$roomNumber','$roomType','$description','$startDate','$endDate','$image','$status','$price')");
                 if ($exeQry==true){
                   $rommAdded=true;
                 }        
@@ -181,6 +188,11 @@ if (isset($_POST['btn-add-room'])) {
     <label >Available Till Date:</label>
     <input type="date" class="form-control" name="endDate" required>
   </div>
+  <div class="form-group">
+    <label >Price</label>
+    <input type="text" class="form-control" name="price" value="<?php if(isset($price)){ echo $price; } ?>" placeholder="Enter Amount" required>
+  </div>
+
   <div class="form-group">
     <label >Available</label>
     <input type="text" class="form-control" name="status" value="<?php if(isset($status)){ echo $status; } ?>" placeholder="yes or no" required>
