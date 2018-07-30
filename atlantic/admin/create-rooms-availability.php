@@ -4,10 +4,10 @@ session_start();
 if((isset($_SESSION)) && (empty($_SESSION['email']) || $_SESSION['email']!="macpro@live.com")){ header('location:../login.php');}
 if (isset($_GET['login'])){
     unset($_SESSION["email"]);
+    unset($_SESSION["id"]);
     session_destroy();
-    header('location:login.php');
+    header('location:../login.php');
 }
-if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:../login.php');}
 $name='';$location='';$roomNumber='';$roomType='';$description='';$startDate='';$endDate='';$price='';$status='';$image='';$rommAdded=false;$errs=array();
 
 if (isset($_POST['btn-add-room'])) {
@@ -114,7 +114,6 @@ if (isset($_POST['btn-add-room'])) {
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="../index.php">Home</a></li>
-      <li><a href="#">View Rooms</a></li>
     </ul>
     <?php if(!isset($_SESSION) || empty($_SESSION['email'])){ ?>
       <ul class="nav navbar-nav navbar-right">
@@ -217,7 +216,7 @@ if (isset($_POST['btn-add-room'])) {
                     <h4 class="modal-title">Room Availability added</h4>
                 </div>
                 <div class="modal-body">
-                    <p>This room is not available for the customers.</p>
+                    <p>This room is now available for the customers.</p>
                 </div>
                 <div class="modal-footer">
                     <form action="../index.php" method="post">
