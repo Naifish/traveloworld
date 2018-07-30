@@ -3,8 +3,40 @@
 session_start();
 $minAmt='';
 $maxAmt='';
+$departDate='';
+$returnDate='';
+$fID='';$uID='';
+$flightPrice='';
 $errs=array();
 
+
+
+if (empty($_GET['departDate'])) {
+    $errs[]="Departure date is required";
+}else{
+    $departDate=$_GET['departDate'];
+}
+if (empty($_GET['returnDate'])) {
+    $errs[]="Return date is required";
+}else{
+    $returnDate=$_GET['returnDate'];
+}
+
+if (empty($_GET['fID'])) {
+    $errs[]="Flight ID is required";
+}else{
+    $fID=$_GET['fID'];
+}
+if (empty($_GET['uID'])) {
+    $errs[]="Maximum Amount is required";
+}else{
+    $uID=$_GET['uID'];
+}
+if (empty($_GET['price'])) {
+    $errs[]="Flight price is required";
+}else{
+    $flightPrice=$_GET['price'];
+}
 
 if (isset($_POST['btn-login'])) {
   # code...
@@ -15,12 +47,11 @@ if (isset($_POST['btn-login'])) {
   }else{
     $minAmt=$_POST['minAmt'];
   }
-
-  if (empty($_POST['maxAmt'])) {
-    $errs[]="Maximum Amount is required";
-  }else{
-    $maxAmt=$_POST['maxAmt'];
-  }
+    if (empty($_POST['maxAmt'])) {
+        $errs[]="Maximum Amount is required";
+    }else{
+        $maxAmt=$_POST['maxAmt'];
+    }
 }  
 ?>
 <!DOCTYPE html>
@@ -35,7 +66,7 @@ require 'includes/header.php';
 <div class="container container-registration">
 <div class="row">
 	
-<form action="list-rooms.php?startDate=<?php echo $startDate;?>&endDate=<?php echo $endDate;?>&minAmt=<?php echo $minAmt;?>&maxAmt=<?php echo $maxAmt;?>" method="GET">
+<form action="list-rooms.php" method="GET">
   <h3 class="text-center">Search</h3>
   <ul>
     <?php if (count($errs)>0){ foreach ($errs as $er) {
@@ -44,7 +75,11 @@ require 'includes/header.php';
     <?php }} ?>
   </ul>
   
-
+    <input type="hidden" name="departDate" value="<?php echo $departDate; ?>">
+    <input type="hidden" name="returnDate" value="<?php echo $returnDate; ?>">
+    <input type="hidden" name="fID" value="<?php echo $fID; ?>">
+    <input type="hidden" name="uID" value="<?php echo $uID; ?>">
+    <input type="hidden" name="flightPrice" value="<?php echo $flightPrice; ?>">
   <div class="form-group col-md-6">
     <label >Minumum Amount</label>
     <input type="text" class="form-control" name="minAmt" placeholder="Enter minimum amount" required>

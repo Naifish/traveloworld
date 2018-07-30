@@ -3,6 +3,42 @@
 <?php 
 session_start();
 
+$departDate='';
+$returnDate='';
+$fID='';$uID='';
+$flightPrice='';
+
+
+
+if (empty($_GET['departDate'])) {
+    $errs[]="Departure date is required";
+}else{
+    $departDate=$_GET['departDate'];
+}
+if (empty($_GET['returnDate'])) {
+    $errs[]="Return date is required";
+}else{
+    $returnDate=$_GET['returnDate'];
+}
+
+if (empty($_GET['fID'])) {
+    $errs[]="Flight ID is required";
+}else{
+    $fID=$_GET['fID'];
+}
+if (empty($_GET['uID'])) {
+    $errs[]="Maximum Amount is required";
+}else{
+    $uID=$_GET['uID'];
+}
+if (empty($_GET['flightPrice'])) {
+    $errs[]="Flight price is required";
+}else{
+    $flightPrice=$_GET['flightPrice'];
+}
+
+
+
 require 'includes/header.php';
 ?>
 <div class="container">
@@ -15,8 +51,8 @@ require 'includes/header.php';
 </div>
 
 <?php
-$startDate = $_GET['startDate']; 
-$endDate = $_GET['endDate']; 
+$startDate = $_GET['departDate'];
+$endDate = $_GET['returnDate'];
 $minAmt = $_GET['minAmt']; 
 $maxAmt = $_GET['maxAmt']; 
 ?>
@@ -25,6 +61,12 @@ $maxAmt = $_GET['maxAmt'];
     <input type="hidden" name="sendId" id="endDate" value="<?php echo $endDate;?>">
     <input type="hidden" name="sendId" id="minAmt" value="<?php echo $minAmt;?>">
     <input type="hidden" name="sendId" id="maxAmt" value="<?php echo $maxAmt;?>">
+
+    <input type="hidden" name="departDate" id="departDate" value="<?php echo $departDate;?>">
+    <input type="hidden" name="returnDate" id="returnDate" value="<?php echo $returnDate;?>">
+    <input type="hidden" name="fID" id="fID" value="<?php echo $fID;?>">
+    <input type="hidden" name="uID" id="uID" value="<?php echo $uID;?>">
+    <input type="hidden" name="flightPrice" id="flightPrice" value="<?php echo $flightPrice;?>">
 
 </form>
 
@@ -66,9 +108,15 @@ Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_ap
         var room = data[i].roomNumber;
         var id= data[i].id;
         var price= data[i].price;
+
+        var departDate = $('#departDate').val();
+        var returnDate = $('#returnDate').val();
+        var fID = $('#fID').val();
+        var uID = $('#uID').val();
+        var flightPrice = $('#flightPrice').val();
         var image = '<img src="https://res.cloudinary.com/drp5uq3ng/image/upload/w_250,bo_1px_solid_rgb:00390b,f_png,c_fill/'+data[i].image+'">';
         
-        $("ol").append("<li><div class='container list-room'><div class='row'><div class='col-md-3'>"+image+"</div><div class='col-md-7'><h3>Room Type: "+roomType+"<hr/><p class='room-description'>"+description+"</p><p class='room-number'>Room Number: "+room+"</p></div><div class='col-md-2'><h2>CAD "+price+"</h2><a href='single-room.php?id="+id+"&startDate="+startDate+"&endDate="+endDate+"' class='btn-primary btn-rooms'>Book this Room</a></div></div></div></li><br />");
+        $("ol").append("<li><div class='container list-room'><div class='row'><div class='col-md-3'>"+image+"</div><div class='col-md-7'><h3>Room Type: "+roomType+"<hr/><p class='room-description'>"+description+"</p><p class='room-number'>Room Number: "+room+"</p></div><div class='col-md-2'><h2>CAD "+price+"</h2><a href='single-room.php?id="+id+"&startDate="+startDate+"&endDate="+endDate+"&departDate="+departDate+"&returnDate="+returnDate+"&fID="+fID+"&uID="+uID+"&flightPrice="+flightPrice+"' class='btn-primary btn-rooms'>Book this Room</a></div></div></div></li><br />");
     }    
                     
     } 

@@ -2,21 +2,27 @@
 session_start();
 if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:login.php');}
 $uID='';$paymentSuccess=false;
-if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['fID']) && isset($_GET['uID'])) {
-  $uID=$_GET['uID'];$fID=$_GET['fID'];
-
-  require 'includes/database.php';
-  $con = new Database();
-  $con = $con->connect();
-  $exeQry = $con->query(" INSERT INTO my_bookings (uID,fID) VALUES('$uID','$fID')");
-                    if ($exeQry==true){
-                        $paymentSuccess=true;
-                        
-                        //$updateRoomStatus = $con->query("UPDATE rooms SET status='no' WHERE id='$rID");
-                        $updateRoomStatus = $con->prepare("UPDATE flights SET status='no' WHERE id= :id");
-            $updateRoomStatus->execute(array("id" => $fID));
-                    }
-}
+$departDate=$_GET['departDate'];
+$returnDate=$_GET['returnDate'];
+$price=$_GET['price'];
+$fID=$_GET['fID'];
+$uID=$_GET['uID'];
+$totalAmount=0;$discountedAmount=0;
+//if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['fID']) && isset($_GET['uID'])) {
+//  $uID=$_GET['uID'];$fID=$_GET['fID'];
+//
+//  require 'includes/database.php';
+//  $con = new Database();
+//  $con = $con->connect();
+//  $exeQry = $con->query(" INSERT INTO my_bookings (uID,fID) VALUES('$uID','$fID')");
+//                    if ($exeQry==true){
+//                        $paymentSuccess=true;
+//
+//                        //$updateRoomStatus = $con->query("UPDATE rooms SET status='no' WHERE id='$rID");
+//                        $updateRoomStatus = $con->prepare("UPDATE flights SET status='no' WHERE id= :id");
+//            $updateRoomStatus->execute(array("id" => $fID));
+//                    }
+//}
 
 ?>
 
@@ -31,6 +37,8 @@ require 'includes/header.php';
 	<div class="col-md-12">
 <form action="#" method="post" id="form-payment">
 	<h3 class="text-center">Payment</h3>
+  <input type="hidden" name="departDate" id="departDate" value="<?php echo $_GET['departDate'];?>">
+  <input type="hidden" name="returnDate" id="returnDate" value="<?php echo $_GET['returnDate'];?>">
   <input type="hidden" name="fID" id="fID" value="<?php if(isset($_GET['fID'])){ echo $_GET['fID']; } ?>">
   <input type="hidden" name="uID" id="uID" value="<?php if(isset($_GET['uID'])){ echo $_GET['uID']; } ?>">
   <div class="form-group">
@@ -53,12 +61,35 @@ require 'includes/header.php';
     <label >Card holder name</label>
     <input type="text" class="form-control" name="holderName" id="holderName" placeholder="Name of card holder" required>
   </div>
+    <?php if (isset($_GET['fID']) && isset($_GET['rID'])){
+        $totalAmount=$_GET['flightPrice']+$_GET['price'];
+        $discountedAmount= $totalAmount- ($totalAmount*0.05);
+    }else{
+        $discountedAmount=$_GET['price'];
+
+    }
+
+    ?>
   <div class="form-group">
     <label >Amount <small>(in CAD)</small></label>
-    <input type="text" class="form-control" name="amount" id="amount" disabled value="<?php if(isset($_GET['price'])){ echo $_GET['price']; } ?>" required>
+    <input type="text" class="form-control" name="amount" id="amount" disabled value="<?php echo $discountedAmount;  ?>" required>
   </div>
+    <?php if (isset($_GET['fID']) && isset($_GET['rID'])){ ?>
+        <p>Flight ticket Amount: <span class="text-info"><?php echo $_GET['flightPrice'] ?></span><br>
+           Hotel Booking Amount: <span class="text-info"><?php echo $_GET['price'] ?></span><br>
+           Total Amount: <span class="text-info"><?php echo $totalAmount; ?></span><br>
+           After 5% Discount. Amount is: <strong><span class="font-weight-bold text-success"><?php echo $discountedAmount; ?></span></strong><br>
+        </p>
+
+    <?php } ?>
   <div id="resultPayment" class="text-danger" style="margin: 20px 0px;"></div>
+    <?php if (isset($_GET['fID']) && !isset($_GET['rID'])){ ?>
+  <small>Book hotel rooms for your trip and get discount.</small><br>
+    <?php } ?>
   <input type="submit" value="Pay for booking" id="btn-pay" class="btn btn-success">
+    <?php if (isset($_GET['fID']) && !isset($_GET['rID'])){ ?>
+        <a href="rooms-price.php?fID=<?php echo $fID; ?>&uID=<?php echo $uID; ?>&departDate=<?php echo $departDate; ?>&returnDate=<?php echo $returnDate; ?>&price=<?php echo $price; ?>" class="btn btn-info">Find hotel for your trip</a>
+    <?php } ?>
 </form>
 </div>
 </div>
