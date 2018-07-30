@@ -76,7 +76,21 @@ $app->get('/rooms/bookings/{id}', function (Request $req, Response $res){
     }
 });
 
+$app->get('/rooms/status/{rID}', function (Request $req, Response $res){
+    $id = $req->getAttribute('rID');
+    
+    try{
 
+        $con = new Database();
+        $con = $con->connect();
+        $updateStatus = "UPDATE rooms SET status='no' WHERE id= '$id'";
+        $stmt = $con->query($updateStatus);
+        $con =  null;
+        echo '{"message": {"text": "Room with room ID: '.$id.' successfully booked!"}  }';
+    }catch(PDOException $e){
+        echo '{"message": {"text": '.$e->getMessage().'}  }';
+    }
+});
 
 $app->run();
 
