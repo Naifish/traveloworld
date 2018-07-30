@@ -11,52 +11,7 @@ require '../includes/database.php';
 
 $app = new \Slim\App;
 
-
-$app->get('/flights/all/{departDate}/{returnDate}/{minAmt}/{maxAmt}', function (Request $req, Response $res){
-    $departDate = $req->getAttribute('departDate');
-    $returnDate = $req->getAttribute('returnDate');
-    $minAmt = $req->getAttribute('minAmt');
-    $maxAmt = $req->getAttribute('maxAmt');
-        
-
-    try{
-
-        $con = new Database();
-        $con = $con->connect();
-        $sql = "SELECT * FROM flights WHERE departDate <= '$returnDate' AND returnDate >= '$departDate' AND price BETWEEN '$minAmt' AND '$maxAmt' AND status='yes'";
-
-        $stmt = $con->query($sql);
-        $flights =  $stmt->fetchAll(PDO::FETCH_OBJ);
-        $con =  null;
-        echo json_encode($flights);
-
-    }catch(PDOException $e){
-        echo '{"message": {"text": '.$e->getMessage().'}  }';
-    }
-});
-
-
-$app->get('/flights/{id}', function (Request $req, Response $res){
-    $id = $req->getAttribute('id');
-    try{
-
-        $con = new Database();
-        $con = $con->connect();
-        $sql = "SELECT * FROM flights WHERE id=$id";        
-
-
-        $stmt = $con->query($sql);
-        $flights =  $stmt->fetchAll(PDO::FETCH_OBJ);
-        $con =  null;
-        echo json_encode($flights);
-
-    }catch(PDOException $e){
-        echo '{"message": {"text": '.$e->getMessage().'}  }';
-    }
-});
-
-
-$app->get('/flights/bookings/{id}', function (Request $req, Response $res){
+$app->get('/traveloworld/bookings/{id}', function (Request $req, Response $res){
     $id = $req->getAttribute('id');
     /*$email = $req->getAttribute('email');*/
     try{
