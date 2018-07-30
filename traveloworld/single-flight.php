@@ -38,7 +38,7 @@ include 'includes/footer.php';
 $(document).ready(function() {
     var id=0;
      id = document.getElementById('id').value;
-     uID = document.getElementById('uID').value;
+     var uID = document.getElementById('uID').value;
      var departDate = document.getElementById('departDate').value; 
      var returnDate = document.getElementById('returnDate').value;  
      console.log(id);  
