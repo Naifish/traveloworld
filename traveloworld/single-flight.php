@@ -63,7 +63,7 @@ Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_ap
         var price= data[i].price;
         //var image = '<img src="https://res.cloudinary.com/drp5uq3ng/image/upload/w_250,bo_1px_solid_rgb:00390b,f_png,c_fill/'+data[i].image+'">';
         
-        $("ol").append("<li></center><br/><br/><h2>Flight Name: "+name+"</h2><p>Flight Type: "+flightType+"</p><hr/><p class='flight-description'>Details: "+details+"</p><p class='room-number'>Source: "+source+"</p><p class='room-number'>Destination: "+destination+"</p><div class='row'><div class='col-md-3'><h3>Departure Date  </h3>"+departDate+"</div><div class='col-md-3'><h3> Return Date </h3> "+returnDate+"</div></div><br /><h2>CAD "+price+"</h2><br/><a href='payment.php?fID="+id+"&price="+price+"&uID="+uID+"' class='btn-primary btn-flights'>Book this flight</a></div></li><br />");
+        $("ol").append("<li></center><br/><br/><h2>Flight Name: "+name+"</h2><p>Flight Type: "+flightType+"</p><hr/><p class='flight-description'>Details: "+details+"</p><p class='room-number'>Source: "+source+"</p><p class='room-number'>Destination: "+destination+"</p><div class='row'><div class='col-md-3'><h3>Departure Date  </h3>"+departDate+"</div><div class='col-md-3'><h3> Return Date </h3> "+returnDate+"</div></div><br /><h2>CAD "+price+"</h2><br/><a href='payment.php?fID="+id+"&price="+price+"&uID="+uID+"&departDate="+departDate+"&returnDate="+returnDate+"' class='btn-primary btn-flights'>Book this flight</a></div></li><br />");
     }    
                     
     } 
