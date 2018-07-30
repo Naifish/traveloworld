@@ -42,10 +42,10 @@ var endDate = document.getElementById('endDate').value;
 var minAmt = document.getElementById('minAmt').value; 
 var maxAmt = document.getElementById('maxAmt').value; 
 
-console.log(startDate);
+/*console.log(startDate);
 console.log(endDate);
 console.log(minAmt);
-console.log(maxAmt);
+console.log(maxAmt);*/
 
 
 

@@ -40,8 +40,7 @@ $(document).ready(function() {
      id = document.getElementById('id').value;
      var uID = document.getElementById('uID').value;
      var departDate = document.getElementById('departDate').value; 
-     var returnDate = document.getElementById('returnDate').value;  
-     console.log(id);  
+     var returnDate = document.getElementById('returnDate').value;
 $.ajax({
     url: "http://localhost/traveloworld/traveloworld/swoop/public/index.php/flights/"+id,
     method: 'GET',

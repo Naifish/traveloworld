@@ -86,7 +86,7 @@ $app->get('/rooms/status/{rID}', function (Request $req, Response $res){
         $updateStatus = "UPDATE rooms SET status='no' WHERE id= '$id'";
         $stmt = $con->query($updateStatus);
         $con =  null;
-        echo '{"message": {"text": "Room with room ID: '.$id.' successfully booked!"}  }';
+        echo '{"message": {"updateStatus": true}  }';
     }catch(PDOException $e){
         echo '{"message": {"text": '.$e->getMessage().'}  }';
     }
