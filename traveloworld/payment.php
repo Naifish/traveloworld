@@ -1,28 +1,41 @@
 <?php
 session_start();
 if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:login.php');}
-$uID='';$paymentSuccess=false;
-$departDate=$_GET['departDate'];
-$returnDate=$_GET['returnDate'];
-$price=$_GET['price'];
+require 'includes/database.php';
+$uID='';$paymentSuccess=false;$departDate='';$returnDate='';$price='';$rID='';
+if (isset($_GET['departDate'])){
+    $departDate=$_GET['departDate'];
+}
+if (isset($_GET['returnDate'])){
+    $returnDate=$_GET['returnDate'];
+}
+if (isset($_GET['price'])){
+    $price=$_GET['price'];
+}
+if (isset($_GET['rID'])){
+    $rID=$_GET['rID'];
+}
 $fID=$_GET['fID'];
 $uID=$_GET['uID'];
 $totalAmount=0;$discountedAmount=0;
-//if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['fID']) && isset($_GET['uID'])) {
-//  $uID=$_GET['uID'];$fID=$_GET['fID'];
-//
-//  require 'includes/database.php';
-//  $con = new Database();
-//  $con = $con->connect();
-//  $exeQry = $con->query(" INSERT INTO my_bookings (uID,fID) VALUES('$uID','$fID')");
-//                    if ($exeQry==true){
-//                        $paymentSuccess=true;
-//
-//                        //$updateRoomStatus = $con->query("UPDATE rooms SET status='no' WHERE id='$rID");
-//                        $updateRoomStatus = $con->prepare("UPDATE flights SET status='no' WHERE id= :id");
-//            $updateRoomStatus->execute(array("id" => $fID));
-//                    }
-//}
+if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['fID']) && isset($_GET['uID']) && !isset($_GET['rID'])) {
+  $uID=$_GET['uID'];$fID=$_GET['fID'];
+  $con = new Database();
+  $con = $con->connect();
+  $exeQry = $con->query(" INSERT INTO my_bookings (uID,fID) VALUES('$uID','$fID')");
+                    if ($exeQry==true){
+                        $paymentSuccess=true;
+                    }
+}
+else if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['fID']) && isset($_GET['uID']) && isset($_GET['rID'])){
+    $uID=$_GET['uID'];$fID=$_GET['fID'];$rID=$_GET['rID'];
+    $con = new Database();
+    $con = $con->connect();
+    $exeQry = $con->query(" INSERT INTO my_bookings (uID,fID,rID) VALUES('$uID','$fID','$rID')");
+    if ($exeQry==true){
+        $paymentSuccess=true;
+    }
+}
 
 ?>
 
@@ -40,6 +53,7 @@ require 'includes/header.php';
   <input type="hidden" name="departDate" id="departDate" value="<?php echo $_GET['departDate'];?>">
   <input type="hidden" name="returnDate" id="returnDate" value="<?php echo $_GET['returnDate'];?>">
   <input type="hidden" name="fID" id="fID" value="<?php if(isset($_GET['fID'])){ echo $_GET['fID']; } ?>">
+  <input type="hidden" name="rID" id="rID" value="<?php if(isset($_GET['rID'])){ echo $_GET['rID']; } ?>">
   <input type="hidden" name="uID" id="uID" value="<?php if(isset($_GET['uID'])){ echo $_GET['uID']; } ?>">
   <div class="form-group">
     <label >Type of card</label>
@@ -73,6 +87,7 @@ require 'includes/header.php';
   <div class="form-group">
     <label >Amount <small>(in CAD)</small></label>
     <input type="text" class="form-control" name="amount" id="amount" disabled value="<?php echo $discountedAmount;  ?>" required>
+     <input type="hidden" id="bookingRoom" value="<?php if (isset($_GET['fID']) && isset($_GET['rID'])){ echo 'yes'; } else{ echo 'no'; } ?>">
   </div>
     <?php if (isset($_GET['fID']) && isset($_GET['rID'])){ ?>
         <p>Flight ticket Amount: <span class="text-info"><?php echo $_GET['flightPrice'] ?></span><br>
@@ -130,6 +145,10 @@ include 'includes/footer.php';
   
 $(document).ready(function () {
 var resultPayment = $('#resultPayment');
+var amountPayed=false;var flightStautsUpdated=false;
+var roomStautsUpdated=false;
+var bookingRoom = $('#bookingRoom').val();
+
 
         <?php if ($paymentSuccess==true){ $paymentSuccess=false; ?>
         $("#modalSuccess").modal('show');
@@ -143,6 +162,7 @@ var resultPayment = $('#resultPayment');
         $('#btn-pay').click(function () {
             var fID = $('#fID').val();
             var uID = $('#uID').val();
+            var rID = $('#rID').val();
             var type = $('#type').val();
             var cardNumber = $('#cardNumber').val();
             var cvv = $('#cvv').val();
@@ -152,6 +172,7 @@ var resultPayment = $('#resultPayment');
             $.ajax({
                 url: 'http://localhost/traveloworld/traveloworld/payment-gateway/index.php/card/pay',
                 method: 'POST',
+                async: false,
                 contentType: 'application/json',
                 data: JSON.stringify({
                     type: type,
@@ -162,14 +183,55 @@ var resultPayment = $('#resultPayment');
                 }),
                 dataType: 'JSON',
                 success: function (data) {
-                  console.log(data);
                     if (data.message.status=='success') {
-                      window.location.href = "http://localhost/traveloworld/traveloworld/swoop/payment.php?payment=success&fID="+fID+"&uID="+uID;
+                      /*window.location.href = "http://localhost/traveloworld/traveloworld/swoop/payment.php?payment=success&fID="+fID+"&uID="+uID;*/
+                        amountPayed=true;
                     }else{
                       resultPayment.html(data.message.status);
                     }
                 }
             });
+
+
+            if(amountPayed==true){
+                $.ajax({
+                    url: 'http://localhost/traveloworld/traveloworld/swoop/public/index.php/flights/status/' + fID,
+                    method: 'GET',
+                    async: false,
+                    contentType: 'application/json',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.message.updateStatus==true) {
+                            flightStautsUpdated=true;
+                        }
+                    }
+                });
+            }
+            if(amountPayed==true && bookingRoom=='yes'){
+                $.ajax({
+                    url: 'http://localhost/traveloworld/traveloworld/atlantic/public/index.php/rooms/status/' + rID,
+                    method: 'GET',
+                    async: false,
+                    contentType: 'application/json',
+                    dataType: 'JSON',
+                    success: function (data) {
+                        if (data.message.updateStatus==true) {
+                            roomStautsUpdated=true;
+                        }
+                    }
+                });
+            }
+
+            //if paying only for flight
+            if(flightStautsUpdated==true && bookingRoom=='no'){
+                //$("#modalSuccess").modal('show');
+                window.location.href = "http://localhost/traveloworld/traveloworld/traveloworld/payment.php?payment=success&fID="+fID+"&uID="+uID;
+            }
+            //if paying for flight and rooms
+            else if(flightStautsUpdated==true && roomStautsUpdated==true){
+                //$("#modalSuccess").modal('show');
+                window.location.href = "http://localhost/traveloworld/traveloworld/traveloworld/payment.php?payment=success&fID="+fID+"&uID="+uID+"&rID="+rID;
+            }
         });
   });
 

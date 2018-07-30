@@ -87,7 +87,7 @@ $app->get('/flights/status/{fID}', function (Request $req, Response $res){
         $updateStatus = "UPDATE flights SET status='no' WHERE id= '$id'";
         $stmt = $con->query($updateStatus);
         $con =  null;
-        echo '{"message": {"text": "Flight with Flight ID: '.$id.' successfully booked!"}  }';
+        echo '{"message": {"updateStatus": true}  }';
 
     }catch(PDOException $e){
         echo '{"message": {"text": '.$e->getMessage().'}  }';

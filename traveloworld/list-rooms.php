@@ -51,14 +51,14 @@ require 'includes/header.php';
 </div>
 
 <?php
-$startDate = $_GET['departDate'];
-$endDate = $_GET['returnDate'];
+/*$startDate = $_GET['departDate'];
+$endDate = $_GET['returnDate'];*/
 $minAmt = $_GET['minAmt']; 
 $maxAmt = $_GET['maxAmt']; 
 ?>
 <form>
-    <input type="hidden" name="sendId" id="startDate" value="<?php echo $startDate;?>">
-    <input type="hidden" name="sendId" id="endDate" value="<?php echo $endDate;?>">
+    <!--<input type="hidden" name="sendId" id="startDate" value="<?php /*echo $startDate;*/?>">
+    <input type="hidden" name="sendId" id="endDate" value="<?php /*echo $endDate;*/?>">-->
     <input type="hidden" name="sendId" id="minAmt" value="<?php echo $minAmt;?>">
     <input type="hidden" name="sendId" id="maxAmt" value="<?php echo $maxAmt;?>">
 
@@ -79,20 +79,20 @@ include 'includes/footer.php';
 <script type="text/javascript">
 	
 $(document).ready(function() {
-var startDate = document.getElementById('startDate').value; 
-var endDate = document.getElementById('endDate').value; 
+var departDate = document.getElementById('departDate').value;
+var returnDate = document.getElementById('returnDate').value;
 var minAmt = document.getElementById('minAmt').value; 
 var maxAmt = document.getElementById('maxAmt').value; 
 
-console.log(startDate);
+/*console.log(startDate);
 console.log(endDate);
 console.log(minAmt);
-console.log(maxAmt);
+console.log(maxAmt);*/
 
 
 
 $.ajax({
-    url: "http://localhost/traveloworld/traveloworld/atlantic/public/index.php/rooms/all/"+startDate+"/"+endDate+"/"+minAmt+"/"+maxAmt,
+    url: "http://localhost/traveloworld/traveloworld/atlantic/public/index.php/rooms/all/"+departDate+"/"+returnDate+"/"+minAmt+"/"+maxAmt,
     method: 'GET',
     contentType: 'application/json',
     dataType: 'JSON',
@@ -101,13 +101,17 @@ $.ajax({
 /* Append() Reference Reference:
 [1] w3schools.com3. "jQuery append() Method". w3schools.com. [Online]. 
 Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_append2. [Accessed On: 23rd June 2018].*/
-    
+
+
+/*console.log(data);*/
     for (var i=0; i <= data.length-1; i++) {	
         var roomType = data[i].roomType;
         var description = data[i].description;
         var room = data[i].roomNumber;
         var id= data[i].id;
         var price= data[i].price;
+        var startDate= data[i].startDate;
+        var endDate= data[i].endDate;
 
         var departDate = $('#departDate').val();
         var returnDate = $('#returnDate').val();

@@ -89,8 +89,6 @@ $(document).ready(function() {
     var uID = $('#uID').val();
     var flightPrice = $('#flightPrice').val();
 
-
-     console.log(id);  
 $.ajax({
     url: "http://localhost/traveloworld/traveloworld/atlantic/public/index.php/rooms/"+id,
     method: 'GET',
