@@ -9,13 +9,11 @@ if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['fID']
   $con = new Database();
   $con = $con->connect();
   $exeQry = $con->query(" INSERT INTO my_bookings (uID,fID) VALUES('$uID','$fID')");
-                    if ($exeQry==true){
-                        $paymentSuccess=true;
-                        
-                        //$updateRoomStatus = $con->query("UPDATE rooms SET status='no' WHERE id='$rID");
-                        $updateRoomStatus = $con->prepare("UPDATE flights SET status='no' WHERE id= :id");
-            $updateRoomStatus->execute(array("id" => $fID));
-                    }
+            if ($exeQry==true){
+            $paymentSuccess=true;
+            $updateFlightStatus = $con->prepare("UPDATE flights SET status='no' WHERE id= :id");
+            $updateFlightStatus->execute(array("id" => $fID));
+            }
 }
 
 ?>
@@ -26,7 +24,7 @@ if (isset($_GET['payment']) && $_GET['payment']=='success' && isset($_GET['fID']
 require 'includes/header.php';
 ?>
 
-<div class="container container-registration container-add-room">
+<div class="container container-registration container-add-flight">
 <div class="row">
 	<div class="col-md-12">
 <form action="#" method="post" id="form-payment">
