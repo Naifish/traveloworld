@@ -49,13 +49,6 @@ if (isset($_POST['btn-login'])) {
 
 }
 
-
-
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>

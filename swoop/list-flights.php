@@ -42,15 +42,8 @@ var returnDate = document.getElementById('returnDate').value;
 var minAmt = document.getElementById('minAmt').value; 
 var maxAmt = document.getElementById('maxAmt').value; 
 
-console.log(departDate);
-console.log(returnDate);
-console.log(minAmt);
-console.log(maxAmt);
-
-
-
 $.ajax({
-    url: "http://localhost/traveloworld/traveloworld/swoop/public/index.php/flights/all/"+departDate+"/"+returnDate+"/"+minAmt+"/"+maxAmt,
+    url: "https://swoop-airlines.azurewebsites.net/public/index.php/flights/all/"+departDate+"/"+returnDate+"/"+minAmt+"/"+maxAmt,
     method: 'GET',
     contentType: 'application/json',
     dataType: 'JSON',
@@ -68,6 +61,8 @@ Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_ap
         var name = data[i].name;
         var id= data[i].id;
         var price= data[i].price;
+        departDate=data[i].departDate;
+        returnDate=data[i].returnDate;
         //var image = '<img src="https://res.cloudinary.com/drp5uq3ng/image/upload/w_250,bo_1px_solid_rgb:00390b,f_png,c_fill/'+data[i].image+'">';
         
         $("ol").append("<li><div class='container list-flight'><div class='row'><div class='col-md-8'><h2>Flight Name: "+name+"</h2><p>Flight Type: "+flightType+"</p><hr/><p class='flight-description'>"+details+"</p><p class='flight-number'>Source: "+source+"</p><p class='flight-number'>Destination: "+destination+"</p></div><div class='col-md-4'><h2>CAD "+price+"</h2><a href='single-flight.php?id="+id+"&departDate="+departDate+"&returnDate="+returnDate+"' class='btn-primary btn-flights'>Book this Flight</a></div></div></div></li><br />");

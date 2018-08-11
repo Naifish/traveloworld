@@ -3,6 +3,15 @@
 <?php 
 session_start();
 
+require 'includes/keys.php';
+include 'includes/functions.php';
+
+$pt = genrtRandStr(200);
+openssl_public_encrypt($pt, $ct, $swoopPublicKey);
+$ct =base64_encode($ct);
+$ct=base64_URLfriendly($ct);
+$selfID='2e58bab4a92cfad411d52e0f090b26b7';
+
 $departDate='';
 $returnDate='';
 $fID='';$uID='';
@@ -68,6 +77,9 @@ $maxAmt = $_GET['maxAmt'];
     <input type="hidden" name="uID" id="uID" value="<?php echo $uID;?>">
     <input type="hidden" name="flightPrice" id="flightPrice" value="<?php echo $flightPrice;?>">
 
+    <input type="hidden" name="pt" id="pt" value="<?php echo $pt;?>">
+    <input type="hidden" name="ct" id="ct" value="<?php echo $ct;?>">
+    <input type="hidden" name="selfID" id="selfID" value="<?php echo $selfID;?>">
 </form>
 
 
@@ -84,22 +96,19 @@ var returnDate = document.getElementById('returnDate').value;
 var minAmt = document.getElementById('minAmt').value; 
 var maxAmt = document.getElementById('maxAmt').value; 
 
-/*console.log(startDate);
-console.log(endDate);
-console.log(minAmt);
-console.log(maxAmt);*/
-
-
+var pt = document.getElementById('pt').value; 
+var ct = document.getElementById('ct').value; 
+var selfID = document.getElementById('selfID').value;
 
 $.ajax({
-    url: "http://localhost/traveloworld/traveloworld/atlantic/public/index.php/rooms/all/"+departDate+"/"+returnDate+"/"+minAmt+"/"+maxAmt,
+    url: "https://atlantic-hotel.azurewebsites.net/public/index.php/rooms/all/"+departDate+"/"+returnDate+"/"+minAmt+"/"+maxAmt+"/"+selfID+"/"+pt+"/"+ct,
     method: 'GET',
     contentType: 'application/json',
     dataType: 'JSON',
     
     success: function (data) {
 /* Append() Reference Reference:
-[1] w3schools.com3. "jQuery append() Method". w3schools.com. [Online]. 
+Reference: w3schools.com3. "jQuery append() Method". w3schools.com. [Online]. 
 Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_append2. [Accessed On: 23rd June 2018].*/
 
 

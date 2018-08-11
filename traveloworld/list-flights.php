@@ -4,6 +4,15 @@
 session_start();
 
 require 'includes/header.php';
+require 'includes/keys.php';
+include 'includes/functions.php';
+
+$pt = genrtRandStr(200);
+openssl_public_encrypt($pt, $ct, $swoopPublicKey);
+$ct =base64_encode($ct);
+$ct=base64_URLfriendly($ct);
+$selfID='ffb7d672f69630a691d978bd9dd8d234';
+
 ?>
 <div class="container">
 	<h3> Select the flight of your choice!</h3>
@@ -18,13 +27,18 @@ require 'includes/header.php';
 $departDate = $_GET['departDate']; 
 $returnDate = $_GET['returnDate']; 
 $minAmt = $_GET['minAmt']; 
-$maxAmt = $_GET['maxAmt']; 
+$maxAmt = $_GET['maxAmt'];
+
 ?>
 <form>
     <input type="hidden" name="sendId" id="departDate" value="<?php echo $departDate;?>">
     <input type="hidden" name="sendId" id="returnDate" value="<?php echo $returnDate;?>">
     <input type="hidden" name="sendId" id="minAmt" value="<?php echo $minAmt;?>">
     <input type="hidden" name="sendId" id="maxAmt" value="<?php echo $maxAmt;?>">
+
+    <input type="hidden" name="pt" id="pt" value="<?php echo $pt;?>">
+    <input type="hidden" name="ct" id="ct" value="<?php echo $ct;?>">
+    <input type="hidden" name="selfID" id="selfID" value="<?php echo $selfID;?>">
 
 </form>
 
@@ -42,23 +56,20 @@ var returnDate = document.getElementById('returnDate').value;
 var minAmt = document.getElementById('minAmt').value; 
 var maxAmt = document.getElementById('maxAmt').value; 
 
-/*console.log(departDate);
-console.log(returnDate);
-console.log(minAmt);
-console.log(maxAmt);*/
-
-
+var pt = document.getElementById('pt').value; 
+var ct = document.getElementById('ct').value; 
+var selfID = document.getElementById('selfID').value;
 
 $.ajax({
-    url: "http://localhost/traveloworld/traveloworld/swoop/public/index.php/flights/all/"+departDate+"/"+returnDate+"/"+minAmt+"/"+maxAmt,
+    url: "https://swoop-airlines.azurewebsites.net/public/index.php/flights/all/"+departDate+"/"+returnDate+"/"+minAmt+"/"+maxAmt+"/"+selfID+"/"+pt+"/"+ct,
     method: 'GET',
     contentType: 'application/json',
     dataType: 'JSON',
     
     success: function (data) {
 /* Append() Reference Reference:
-[1] w3schools.com3. "jQuery append() Method". w3schools.com. [Online]. 
-Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_append2. [Accessed On: 23rd June 2018].*/
+Reference: w3schools.com3. "jQuery append() Method". w3schools.com. [Online]. 
+Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_append2. [Accessed On: 6th August 2018].*/
 
 //console.log(data);
 

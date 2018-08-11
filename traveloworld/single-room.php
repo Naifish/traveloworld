@@ -2,7 +2,38 @@
 <html>
 <?php 
 session_start();
-if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:login.php');}
+require 'includes/database.php';
+require 'includes/keys.php';
+include 'includes/functions.php';
+$pt = genrtRandStr(200);
+openssl_public_encrypt($pt, $ct, $swoopPublicKey);
+$ct =base64_encode($ct);
+$ct=base64_URLfriendly($ct);
+$selfID='2e58bab4a92cfad411d52e0f090b26b7';
+
+
+if(!isset($_SESSION) || empty($_SESSION['token'])){ 
+  header('location:google-login.php');
+}else{
+  $id_token=$_SESSION['token'];
+}
+if (isset($_POST['id_token']) && !empty($_POST['id_token'])) {
+  $google_id=$_POST['uid'];
+  //echo $_SESSION['token'];
+  $con = new Database();
+  $con = $con->connect();
+        
+  //echo $id;        
+  $sql = "SELECT * FROM users WHERE id='$google_id'"; 
+  $stmt = $con->query($sql);
+  
+        if ($stmt->fetchAll(PDO::FETCH_OBJ)) {
+        //echo "done";       
+}else{
+
+  header("location: google-login.php");  
+}
+}
 
 $departDate='';
 $returnDate='';
@@ -40,6 +71,7 @@ if (empty($_GET['flightPrice'])) {
 
 
 require 'includes/header.php';
+require 'includes/hijacking.php';
 ?>
 <div class="container">
 	<h3> Room Details</h3>
@@ -58,17 +90,26 @@ $endDate = $_GET['endDate'];
 ?>
 <form>
     <input type="hidden" name="sendId" id="id" value="<?php echo $id;?>">
-    <input type="hidden" name="sendId" id="uID" value="<?php echo $_SESSION['id'];?>">
+    <!-- <input type="hidden" name="sendId" id="uID" value="<?php echo $_SESSION['id'];?>"> -->
     <input type="hidden" name="sendId" id="startDate" value="<?php echo $startDate;?>">
     <input type="hidden" name="sendId" id="endDate" value="<?php echo $endDate;?>">
-
+    <input type="hidden" name="id_token" id="id_token" value="<?php echo $id_token;?>">
     <input type="hidden" name="departDate" id="departDate" value="<?php echo $departDate;?>">
     <input type="hidden" name="returnDate" id="returnDate" value="<?php echo $returnDate;?>">
     <input type="hidden" name="fID" id="fID" value="<?php echo $fID;?>">
-    <input type="hidden" name="uID" id="uID" value="<?php echo $uID;?>">
+    <!-- <input type="hidden" name="uID" id="uID" value="<?php echo $uID;?>"> -->
     <input type="hidden" name="flightPrice" id="flightPrice" value="<?php echo $flightPrice;?>">
-</form>
 
+    <input type="hidden" name="pt" id="pt" value="<?php echo $pt;?>">
+    <input type="hidden" name="ct" id="ct" value="<?php echo $ct;?>">
+    <input type="hidden" name="selfID" id="selfID" value="<?php echo $selfID;?>">
+
+
+</form>
+<form action="#" method="POST" id="myForm">
+      
+      <input type="hidden" name="uid" id="uid" value="<?php if(isset($_POST['uid'])){ echo $_POST['uid']; } ?>">
+</form>
 <?php
 include 'includes/footer.php';
 ?>
@@ -79,7 +120,8 @@ include 'includes/footer.php';
 $(document).ready(function() {
     var id=0;
      id = document.getElementById('id').value;
-     uID = document.getElementById('uID').value;
+     //uID = document.getElementById('uID').value;
+     var id_token= document.getElementById('id_token').value; 
      var startDate = document.getElementById('startDate').value; 
      var endDate = document.getElementById('endDate').value;
 
@@ -88,16 +130,39 @@ $(document).ready(function() {
     var fID = $('#fID').val();
     var uID = $('#uID').val();
     var flightPrice = $('#flightPrice').val();
+    var newID;
+
+    var pt = document.getElementById('pt').value; 
+    var ct = document.getElementById('ct').value; 
+    var selfID = document.getElementById('selfID').value;
 
 $.ajax({
-    url: "http://localhost/traveloworld/traveloworld/atlantic/public/index.php/rooms/"+id,
+    url: "https://traveloworld.azurewebsites.net/public/index.php/user/"+id_token,
+    method: 'GET',
+    contentType: 'application/json',
+    dataType: 'JSON',
+    
+    success: function (data) {
+          newID=data.userID;
+         
+         if (($('#uid').val().length) > 0) {
+          }
+          else{
+            $('#uid').val(newID);
+            $('#myForm').submit();
+          }   
+     }
+
+});
+$.ajax({
+    url: "https://atlantic-hotel.azurewebsites.net/public/index.php/rooms/"+id+"/"+selfID+"/"+pt+"/"+ct,
     method: 'GET',
     contentType: 'application/json',
     dataType: 'JSON',
     
     success: function (data) {
 /* Append() Reference Reference:
-[1] w3schools.com3. "jQuery append() Method". w3schools.com. [Online]. 
+Reference: w3schools.com3. "jQuery append() Method". w3schools.com. [Online]. 
 Available: https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_html_append2. [Accessed On: 23rd June 2018].*/
     
     for (var i=0; i <= data.length-1; i++) {	

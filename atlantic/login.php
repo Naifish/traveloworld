@@ -25,7 +25,7 @@ if (isset($_POST['btn-login'])) {
   if (count($errs<1)) {
     $con = new Database();
     $con = $con->connect();
-                $checkUerExistence= $con->prepare("SELECT * FROM users WHERE email= :email AND pass= :pass");
+                $checkUerExistence= $con->prepare("SELECT * FROM users_atlantic WHERE email= :email AND pass= :pass");
                 $checkUerExistence->execute(array(
                     "email"=>$email,
                     "pass"=>$pass

@@ -2,9 +2,45 @@
 <html>
 <?php 
 session_start();
-if(isset($_SESSION) && empty($_SESSION['email'])){ header('location:login.php');}
+require 'includes/database.php';
+$google_id='';
+if(!isset($_SESSION) || empty($_SESSION['token'])){ 
+    header('location:google-login.php');
+}else{
+$curl = curl_init();
+// CURL REFERENCE: https://stackoverflow.com/questions/33302442/get-info-from-external-api-url-using-php
+  curl_setopt_array($curl, array(
+  CURLOPT_URL => "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=".$_SESSION['token'],
+  CURLOPT_RETURNTRANSFER => true,
+  CURLOPT_TIMEOUT => 30,
+  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+  CURLOPT_CUSTOMREQUEST => "GET",
+  CURLOPT_HTTPHEADER => array(
+    "cache-control: no-cache"
+  ),
+));
 
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+/*End of reference*/
+$response = json_decode($response, true);
+$id=$response['sub'];       
+$google_id=$id;
+  //echo $_SESSION['token'];
+  $con = new Database();
+  $con = $con->connect();
+  $sql = "SELECT * FROM users WHERE id='$google_id'"; 
+  $stmt = $con->query($sql);
+        if ($stmt->fetchAll(PDO::FETCH_OBJ)) {
+}else{
+  header("location: google-login.php");  
+}
+}
+$id='';
 require 'includes/header.php';
+require 'includes/hijacking.php';
 ?>
 <div class="container">
 	<h3> View all your bookings</h3>
@@ -15,14 +51,39 @@ require 'includes/header.php';
 	<ol></ol>
 </div>
 <?php
-$id = $_GET['id']; 
+//$id = $_SESSION['id']; 
 //$id = $_SESSION['id'];
 ?>
 <form>
-    <input type="hidden" name="sendId" id="id" value="<?php echo $id;?>">
+    <input type="hidden" name="sendId" id="id" value="<?php echo $google_id;?>">
     <!-- <input type="hidden" name="sendId" id="email" value="<?php echo $email;?>"> -->
 </form>
 
+<!-- [5] w3schools.com "Bootstrap Modal". www.w3schools.com [Online]. Available. "https://www.w3schools.com/bootstrap/bootstrap_modal.asp".[Accessed On: 19th July 2018].-->
+    <div id="modalSuccess" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <form action="my-bookings.php" method="post">
+                        <button type="submit" class="close">&times;</button>
+                    </form>
+                    <h4 class="modal-title">Payment has been received.</h4>
+                </div>
+                <div class="modal-body">
+                    <p>You booking has been confirmed. please visit your booking page to check the booking status</p>
+                </div>
+                <div class="modal-footer">
+                    <form action="my-bookings.php" method="post">
+                        <input type="submit" class="btn btn-default" value="Close">
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of Bootstrap Modal -->
 
 <?php 
 include 'includes/footer.php';
@@ -30,13 +91,17 @@ include 'includes/footer.php';
 
 
 <script type="text/javascript">
+<?php if (isset($_GET['successBooking']) && $_GET['successBooking']=='true'){ ?>
+        $("#modalSuccess").modal('show');
+        <?php } ?>
 	
 $(document).ready(function() {
 var id=0;
 id = document.getElementById('id').value;
 /* +"/"+email*/
+
 $.ajax({
-    url: "http://localhost/traveloworld/traveloworld/swoop/public/index.php/flights/bookings/"+id,
+    url: "https://swoop-airlines.azurewebsites.net/public/index.php/flights/bookings/"+id,
     method: 'GET',
     contentType: 'application/json',
     dataType: 'JSON',

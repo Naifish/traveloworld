@@ -13,10 +13,10 @@ class Database
      private $dbpass = '';
      private $dbname = 'cloudassg4';*/
 
-    private $dbhost = 'localhost';
-    private $dbuser = 'root';
-    private $dbpass = '';
-    private $dbname = 'atlantic_hotel';
+    private $dbhost = 'swoop-airlines.mysql.database.azure.com';
+    private $dbuser = 'traveloworld@swoop-airlines';
+    private $dbpass = 'profFaisal2018';
+    private $dbname = 'swoop_airlines';
 
     /* [4] Reference : Create REST API using PHP - https://www.youtube.com/watch?v=DHUxnUX7Y2Y */
     public function connect()

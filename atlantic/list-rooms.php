@@ -42,15 +42,8 @@ var endDate = document.getElementById('endDate').value;
 var minAmt = document.getElementById('minAmt').value; 
 var maxAmt = document.getElementById('maxAmt').value; 
 
-/*console.log(startDate);
-console.log(endDate);
-console.log(minAmt);
-console.log(maxAmt);*/
-
-
-
 $.ajax({
-    url: "http://localhost/traveloworld/traveloworld/atlantic/public/index.php/rooms/all/"+startDate+"/"+endDate+"/"+minAmt+"/"+maxAmt,
+    url: "https://atlantic-hotel.azurewebsites.net/public/index.php/rooms/all/"+startDate+"/"+endDate+"/"+minAmt+"/"+maxAmt,
     method: 'GET',
     contentType: 'application/json',
     dataType: 'JSON',

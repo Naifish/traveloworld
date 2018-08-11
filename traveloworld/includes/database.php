@@ -3,9 +3,14 @@
 class Database
 {
 
-    private $dbhost = 'localhost';
+/*    private $dbhost = 'localhost';
     private $dbuser = 'root';
     private $dbpass = '';
+    private $dbname = 'traveloworld';*/
+
+    private $dbhost = 'traveloworld.mysql.database.azure.com';
+    private $dbuser = 'traveloworld@traveloworld';
+    private $dbpass = 'profFaisal2018';
     private $dbname = 'traveloworld';
 
     /* [4] Reference : Create REST API using PHP - https://www.youtube.com/watch?v=DHUxnUX7Y2Y */

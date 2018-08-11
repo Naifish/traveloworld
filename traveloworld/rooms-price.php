@@ -44,11 +44,17 @@ if (isset($_POST['btn-login'])) {
   
   if (empty($_POST['minAmt'])) {
     $errs[]="Minimum Amount is required";
-  }else{
+  }elseif (!(preg_match('/[0-9]+$/', $_POST['minAmt']))) {
+        /* end of reference */
+        $errors[] = "Only positive numbers are allowed";
+    }else{
     $minAmt=$_POST['minAmt'];
   }
     if (empty($_POST['maxAmt'])) {
         $errs[]="Maximum Amount is required";
+    }elseif (!(preg_match('/[0-9]+$/', $_POST['maxAmt']))) {
+        /* end of reference */
+        $errors[] = "Only positive numbers are allowed";
     }else{
         $maxAmt=$_POST['maxAmt'];
     }
@@ -82,12 +88,12 @@ require 'includes/header.php';
     <input type="hidden" name="flightPrice" value="<?php echo $flightPrice; ?>">
   <div class="form-group col-md-6">
     <label >Minumum Amount</label>
-    <input type="text" class="form-control" name="minAmt" placeholder="Enter minimum amount" required>
+    <input type="text" class="form-control" name="minAmt" placeholder="Enter minimum amount" required pattern="^[0-9]+" title=" Only positive numbers are allowed">
     <!-- <small>Your email id is safe with us.</small> -->
   </div>
   <div class="form-group col-md-6">
     <label >Maximum Amount</label>
-    <input type="text" class="form-control" name="maxAmt" placeholder="Enter maximum amount" required>
+    <input type="text" class="form-control" name="maxAmt" placeholder="Enter maximum amount" required pattern="^[0-9]+" title=" Only positive numbers are allowed">
   </div>  
 
 

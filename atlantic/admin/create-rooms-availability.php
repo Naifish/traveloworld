@@ -56,7 +56,7 @@ if (isset($_POST['btn-add-room'])) {
 
   if (empty($_POST['startDate'])) {
     $errs[]="Room availability start date is required";
-  /* [2] regextester.com "Regex for Date". www.regextester.com [Online]. Available. "https://www.regextester.com/96222".[Accessed On: 27th July 2018]. */
+  /* regextester.com "Regex for Date". www.regextester.com [Online]. Available. "https://www.regextester.com/96222".[Accessed On: 3th August 2018]. */
     } elseif (!(preg_match('/^((19|20)\d{2})-((0|1)\d{1})-((0|1|2|3)\d{1})/', $_POST['startDate']))) {
         /* end of reference */
         $errs[] = "Invalid Room availability start date.";
@@ -66,7 +66,7 @@ if (isset($_POST['btn-add-room'])) {
 
     if (empty($_POST['endDate'])) {
     $errs[]="Room availability end date is required";
-  /* [2] regextester.com "Regex for Date". www.regextester.com [Online]. Available. "https://www.regextester.com/96222".[Accessed On: 27th July 2018]. */
+  /* regextester.com "Regex for Date". www.regextester.com [Online]. Available. "https://www.regextester.com/96222".[Accessed On: 3thth August 2018]. */
     } elseif (!(preg_match('/^((19|20)\d{2})-((0|1)\d{1})-((0|1|2|3)\d{1})/', $_POST['endDate']))) {
         /* end of reference */
         $errs[] = "Invalid Room availability end date.";
@@ -203,7 +203,7 @@ if (isset($_POST['btn-add-room'])) {
 </div>
 
 
-<!-- [5] w3schools.com "Bootstrap Modal". www.w3schools.com [Online]. Available. "https://www.w3schools.com/bootstrap/bootstrap_modal.asp".[Accessed On: 19th July 2018].-->
+<!-- w3schools.com "Bootstrap Modal". www.w3schools.com [Online]. Available. "https://www.w3schools.com/bootstrap/bootstrap_modal.asp".[Accessed On: 3rd August 2018].-->
     <div id="modalSuccess" class="modal fade" role="dialog">
         <div class="modal-dialog">
 

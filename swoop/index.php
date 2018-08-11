@@ -25,13 +25,19 @@ if (isset($_POST['btn-login'])) {
 
   if (empty($_POST['minAmt'])) {
     $errs[]="Minimum Amount is required";
-  }else{
+  }elseif (!(preg_match('/[0-9]+$/', $_POST['minAmt']))) {
+        /* end of reference */
+        $errors[] = "Only positive numbers are allowed";
+    }else{
     $minAmt=$_POST['minAmt'];
   }
 
   if (empty($_POST['maxAmt'])) {
     $errs[]="Maximum Amount is required";
-  }else{
+  }elseif (!(preg_match('/[0-9]+$/', $_POST['maxAmt']))) {
+        /* end of reference */
+        $errors[] = "Only positive numbers are allowed";
+    }else{
     $maxAmt=$_POST['maxAmt'];
   }
 }  
@@ -43,12 +49,12 @@ require 'includes/header.php';
 ?>
 <center>
 	<h1>Welcome to Swoop airlines</h1>
-	<p>Book a flight at a reasonalble price</p>
+	<p>Book a flight at a reasonable price</p>
 </center>
 <div class="container container-registration">
 <div class="row">
 	
-<form action="list-flights.php?startDate=<?php echo $startDate;?>&endDate=<?php echo $endDate;?>&minAmt=<?php echo $minAmt;?>&maxAmt=<?php echo $maxAmt;?>" method="GET">
+<form action="list-flights.php?departDate=<?php echo $departDate;?>&returnDate=<?php echo $returnDate;?>&minAmt=<?php echo $minAmt;?>&maxAmt=<?php echo $maxAmt;?>" method="GET">
   <h3 class="text-center">Search flights</h3>
   <ul>
     <?php if (count($errs)>0){ foreach ($errs as $er) {
@@ -67,13 +73,13 @@ require 'includes/header.php';
   </div>
 
   <div class="form-group col-md-6">
-    <label >Minumum Amount</label>
-    <input type="text" class="form-control" name="minAmt" placeholder="Enter minimum amount" required>
+    <label >Minimum Amount</label>
+    <input type="text" class="form-control" name="minAmt" placeholder="Enter minimum amount" required pattern="^[0-9]+" title=" Only positive numbers are allowed">
     <!-- <small>Your email id is safe with us.</small> -->
   </div>
   <div class="form-group col-md-6">
     <label >Maximum Amount</label>
-    <input type="text" class="form-control" name="maxAmt" placeholder="Enter maximum amount" required>
+    <input type="text" class="form-control" name="maxAmt" placeholder="Enter maximum amount" required pattern="^[0-9]+" title=" Only positive numbers are allowed">
   </div>  
 
 
@@ -87,6 +93,7 @@ require 'includes/header.php';
 
 
 <?php 
+//echo $_SESSION['token'];
 include 'includes/footer.php';
 ?>
 
